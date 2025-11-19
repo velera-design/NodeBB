@@ -47,12 +47,7 @@ ENV NODE_ENV=production \
 
 WORKDIR /usr/src/app/
 
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive \
-    apt-get -y --no-install-recommends install \
-        netcat-openbsd \
-    && rm -rf /var/lib/apt/lists/* \
-    && corepack enable \
+RUN corepack enable \
     && groupadd --gid ${GID} ${USER} \
     && useradd --uid ${UID} --gid ${GID} --home-dir /usr/src/app/ --shell /bin/bash ${USER} \
     && mkdir -p /usr/src/app/logs/ /opt/config/ \
