@@ -80,4 +80,5 @@ Interested in a sublicense agreement for use of NodeBB in a non-free/restrictive
 - [Premium Hosting for NodeBB](https://www.nodebb.org/ "NodeBB")
 - Unofficial IRC community &ndash; channel `#nodebb` on Libera.chat
 - [Follow us on Twitter](http://www.twitter.com/NodeBB/ "NodeBB Twitter")
+
 - [Like us on Facebook](http://www.facebook.com/NodeBB/ "NodeBB Facebook")
