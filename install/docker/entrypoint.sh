@@ -163,7 +163,13 @@ start_installation_session() {
 
   echo "Config file not found at $config"
   echo "Starting installation session"
-  exec /usr/src/app/nodebb "$nodebb_init_verb" --config="$config"
+  /usr/src/app/nodebb "$nodebb_init_verb" --config="$config"
+  
+  # After setup completes, start the forum if config was created
+  if [ -f "$config" ]; then
+    echo "Setup completed, starting NodeBB..."
+    start_forum "$config" "$START_BUILD"
+  fi
 }
 
 # Function for debugging and logging
