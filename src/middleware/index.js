@@ -46,19 +46,16 @@ middleware.applyCSRF = function (req, res, next) {
 		"sessionID:",
 		req.sessionID
 	);
-	winston.info(
-		"[CSRF DEBUG] Request headers ===>:",
-		JSON.stringify(req.headers, null, 2)
-	);
-	winston.info(
-		"[CSRF DEBUG] Request body ===>:",
-		JSON.stringify(req.body, null, 2)
-	);
+	winston.info("[CSRF DEBUG] Request headers ====>:");
+	winston.info(util.inspect(req.headers, { depth: null, colors: false }));
+	winston.info("[CSRF DEBUG] Request body ====>:");
+	winston.info(util.inspect(req.body, { depth: null, colors: false }));
 	winston.info(
 		"[CSRF DEBUG] CSRF token from request:",
 		req.headers["x-csrf-token"] || req.body?.csrf_token || req.body?._csrf
 	);
-	winston.info("[CSRF DEBUG] Session:", JSON.stringify(req.session));
+	winston.info("[CSRF DEBUG] Session:");
+	winston.info(util.inspect(req.session, { depth: null, colors: false }));
 	if (req.uid >= 0) {
 		csrfMiddleware(req, res, (err) => {
 			if (err) {
