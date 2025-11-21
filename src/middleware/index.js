@@ -40,8 +40,17 @@ middleware.regexes = {
 const csrfMiddleware = csrfSynchronisedProtection;
 
 middleware.applyCSRF = function (req, res, next) {
+	const winston = require('winston');
+	winston.info('[CSRF DEBUG] applyCSRF called - uid:', req.uid, 'sessionID:', req.sessionID);
+	winston.info('[CSRF DEBUG] CSRF token from request:', req.headers['x-csrf-token'] || req.body?.csrf_token || req.body?._csrf);
+	winston.info('[CSRF DEBUG] Session:', JSON.stringify(req.session));
 	if (req.uid >= 0) {
-		csrfMiddleware(req, res, next);
+		csrfMiddleware(req, res, (err) => {
+			if (err) {
+				winston.error('[CSRF DEBUG] CSRF validation failed:', err.message);
+			}
+			next(err);
+		});
 	} else {
 		next();
 	}
