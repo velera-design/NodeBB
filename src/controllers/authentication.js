@@ -237,6 +237,10 @@ authenticationController.registerAbort = async (req, res) => {
 };
 
 authenticationController.login = async (req, res, next) => {
+	winston.info('[LOGIN DEBUG] Login attempt - CSRF token from header:', req.headers['x-csrf-token']);
+	winston.info('[LOGIN DEBUG] Session ID:', req.sessionID);
+	winston.info('[LOGIN DEBUG] Session data:', JSON.stringify(req.session));
+	winston.info('[LOGIN DEBUG] Cookies:', req.headers.cookie);
 	let { strategy } = await plugins.hooks.fire('filter:login.override', { req, strategy: 'local' });
 	if (!passport._strategy(strategy)) {
 		winston.error(`[auth/override] Requested login strategy "${strategy}" not found, reverting back to local login strategy.`);
