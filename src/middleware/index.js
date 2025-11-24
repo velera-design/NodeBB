@@ -62,6 +62,9 @@ middleware.applyCSRF = function (req, res, next) {
 	} else {
 		winston.info("[CSRF DEBUG] No CSRF cookie found!");
 	}
+	winston.info('[CSRF DEBUG] req.protocol:', req.protocol);
+	winston.info('[CSRF DEBUG] req.secure:', req.secure);
+	winston.info('[CSRF DEBUG] x-forwarded-proto:', req.headers['x-forwarded-proto']);
 	if (req.uid >= 0) {
 		const originalSetHeader = res.setHeader.bind(res);
 		res.setHeader = function(name, value) {
