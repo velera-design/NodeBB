@@ -75,6 +75,7 @@ Interested in a sublicense agreement for use of NodeBB in a non-free/restrictive
 ## More Information/Links
 
 - [Demo](https://try.nodebb.org)
+
 - [Developer Community](http://community.nodebb.org)
 - [Documentation & Installation Instructions](https://docs.nodebb.org)
 - [Help translate NodeBB](https://explore.transifex.com/nodebb/nodebb/)
