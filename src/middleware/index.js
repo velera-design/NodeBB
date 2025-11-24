@@ -52,12 +52,16 @@ middleware.applyCSRF = function (req, res, next) {
 	winston.info(util.inspect(req.body, { depth: null, colors: false }));
 	const tokenFromRequest =
 		req.headers["x-csrf-token"] || req.body?.csrf_token || req.body?._csrf;
-	winston.info("[CSRF DEBUG] CSRF token from request (new):", tokenFromRequest);
-	winston.info("[CSRF DEBUG] CSRF token in session:", req.session?.csrfToken);
-	winston.info("[CSRF DEBUG] Session:");
-
-	// deploy test?
-	winston.info(util.inspect(req.session, { depth: null, colors: false }));
+	winston.info("[CSRF DEBUG] Token from request:", tokenFromRequest);
+	winston.info("[CSRF DEBUG] All cookies:", req.cookies);
+	const csrfCookie = req.cookies ? Object.keys(req.cookies).find(k => k.includes('csrf')) : null;
+	if (csrfCookie) {
+		winston.info("[CSRF DEBUG] CSRF cookie name:", csrfCookie);
+		winston.info("[CSRF DEBUG] CSRF cookie value:", req.cookies[csrfCookie]);
+		winston.info("[CSRF DEBUG] Tokens match:", tokenFromRequest === req.cookies[csrfCookie]);
+	} else {
+		winston.info("[CSRF DEBUG] No CSRF cookie found!");
+	}
 	if (req.uid >= 0) {
 		csrfMiddleware(req, res, (err) => {
 			if (err) {
