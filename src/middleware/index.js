@@ -50,10 +50,9 @@ middleware.applyCSRF = function (req, res, next) {
 	winston.info(util.inspect(req.headers, { depth: null, colors: false }));
 	winston.info("[CSRF DEBUG] Request body ====>:");
 	winston.info(util.inspect(req.body, { depth: null, colors: false }));
-	winston.info(
-		"[CSRF DEBUG] CSRF token from request:",
-		req.headers["x-csrf-token"] || req.body?.csrf_token || req.body?._csrf
-	);
+	const tokenFromRequest = req.headers["x-csrf-token"] || req.body?.csrf_token || req.body?._csrf;
+	winston.info("[CSRF DEBUG] CSRF token from request:", tokenFromRequest);
+	winston.info("[CSRF DEBUG] CSRF token in session:", req.session?.csrfToken);
 	winston.info("[CSRF DEBUG] Session:");
 
 	// deploy test?
@@ -61,7 +60,8 @@ middleware.applyCSRF = function (req, res, next) {
 	if (req.uid >= 0) {
 		csrfMiddleware(req, res, (err) => {
 			if (err) {
-				winston.error("[CSRF DEBUG] CSRF validation failed:", err.message);
+				winston.error("[CSRF DEBUG] CSRF validation failed:");
+				winston.error(util.inspect(err, { depth: null, colors: false }));
 			}
 			next(err);
 		});
