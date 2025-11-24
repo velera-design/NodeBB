@@ -55,6 +55,8 @@ middleware.applyCSRF = function (req, res, next) {
 		req.headers["x-csrf-token"] || req.body?.csrf_token || req.body?._csrf
 	);
 	winston.info("[CSRF DEBUG] Session:");
+
+	// deploy test?
 	winston.info(util.inspect(req.session, { depth: null, colors: false }));
 	if (req.uid >= 0) {
 		csrfMiddleware(req, res, (err) => {
