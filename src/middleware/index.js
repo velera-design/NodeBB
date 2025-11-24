@@ -63,7 +63,15 @@ middleware.applyCSRF = function (req, res, next) {
 		winston.info("[CSRF DEBUG] No CSRF cookie found!");
 	}
 	if (req.uid >= 0) {
+		const originalSetHeader = res.setHeader.bind(res);
+		res.setHeader = function(name, value) {
+			if (name.toLowerCase() === 'set-cookie') {
+				winston.info('[CSRF DEBUG] Set-Cookie header:', value);
+			}
+			return originalSetHeader(name, value);
+		};
 		csrfMiddleware(req, res, (err) => {
+			res.setHeader = originalSetHeader;
 			if (err) {
 				winston.error("[CSRF DEBUG] CSRF validation failed:");
 				winston.error(util.inspect(err, { depth: null, colors: false }));
