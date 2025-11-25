@@ -1,5 +1,6 @@
 "use strict";
 
+const winston = require("winston");
 const { csrfSync } = require("csrf-sync");
 
 const { generateToken, csrfSynchronisedProtection, isRequestValid } = csrfSync({
@@ -16,9 +17,7 @@ const { generateToken, csrfSynchronisedProtection, isRequestValid } = csrfSync({
 	},
 	getOrigin: (req) => {
 		const proto = req.headers["x-forwarded-proto"] || req.protocol;
-		console.log(proto);
-		// deploy test
-
+		winston.info("[CSRF] Protocol:", proto);
 		return `${proto}://${req.get("host")}`;
 	},
 	size: 64,
