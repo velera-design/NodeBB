@@ -65,6 +65,8 @@ middleware.applyCSRF = function (req, res, next) {
 	winston.info('[CSRF DEBUG] req.protocol:', req.protocol);
 	winston.info('[CSRF DEBUG] req.secure:', req.secure);
 	winston.info('[CSRF DEBUG] x-forwarded-proto:', req.headers['x-forwarded-proto']);
+	winston.info('[CSRF DEBUG] trust proxy setting:', req.app.get('trust proxy'));
+	winston.info('[CSRF DEBUG] port:', nconf.get('port'));
 	if (req.uid >= 0) {
 		const originalSetHeader = res.setHeader.bind(res);
 		res.setHeader = function(name, value) {
