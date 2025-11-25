@@ -17,6 +17,7 @@ const { generateToken, csrfSynchronisedProtection, isRequestValid } = csrfSync({
 	getOrigin: (req) => {
 		const proto = req.headers["x-forwarded-proto"] || req.protocol;
 		console.log(proto);
+		// deploy test
 
 		return `${proto}://${req.get("host")}`;
 	},
